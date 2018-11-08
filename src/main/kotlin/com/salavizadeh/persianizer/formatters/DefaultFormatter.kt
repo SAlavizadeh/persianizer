@@ -4,95 +4,83 @@ import com.salavizadeh.persianizer.getDateDiff
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
-public class DefaultDateFormatter() {
+class DefaultDateFormatter {
 
-  private var suffix: String = "ago"
+  private var suffix: String = "قبل"
 
   private fun makeSuffix(difference: Long) {
-    suffix = "ago"
-    if (difference > 0) suffix = "from now"
+    suffix = "قبل"
+    if (difference > 0) suffix = "از اکنون"
   }
 
   fun secondFormatter(input: Date, toCompareAgainst: Date): String {
     var difference = input.getDateDiff(toCompareAgainst, TimeUnit.SECONDS)
     makeSuffix(difference)
     difference = Math.abs(difference)
-    if (difference == 1.toLong()) {
-      return "one second " + suffix
+
+    if (difference > 0.toLong() && difference < 60.toLong()) {
+      return (difference).toString() + " ثانیه " + suffix
     }
-    if (difference > 1.toLong() && difference < 60.toLong()) {
-      return (difference).toString() + " seconds " + suffix
-    }
-    return "a minute " + suffix
+
+    return "یک دقیقه $suffix"
   }
 
   fun minuteFormatter(input: Date, toCompareAgainst: Date): String {
     var difference = input.getDateDiff(toCompareAgainst, TimeUnit.MINUTES)
     makeSuffix(difference)
     difference = Math.abs(difference)
-    if (difference == 1.toLong()) {
-      return "a minute " + suffix
+    if (difference > 0.toLong() && difference < 60.toLong()) {
+      return (difference).toString() + " دقیقه " + suffix
     }
-    if (difference > 1.toLong() && difference < 60.toLong()) {
-      return (difference).toString() + " minutes " + suffix
-    }
-    return "an hour " + suffix
+    return "یک ساعت $suffix"
   }
 
   fun hourFormatter(input: Date, toCompareAgainst: Date): String {
     var difference = input.getDateDiff(toCompareAgainst, TimeUnit.HOURS)
     makeSuffix(difference)
     difference = Math.abs(difference)
-    if (difference == 1.toLong()) {
-      return "an hour " + suffix
+    if (difference > 0.toLong() && difference < 24.toLong()) {
+      return (difference).toString() + " ساعت " + suffix
     }
-    if (difference > 1.toLong() && difference < 24.toLong()) {
-      return (difference).toString() + " hours " + suffix
-    }
-    return "a day " + suffix
+    return "یک روز $suffix"
   }
 
   fun dayFormatter(input: Date, toCompareAgainst: Date): String {
     var difference = input.getDateDiff(toCompareAgainst, TimeUnit.DAYS)
     makeSuffix(difference)
-    if (difference == -1.toLong()) {
-      return "yesterday"
+    if (difference == (-1).toLong()) {
+      return "دیروز"
     }
     if (difference == 1.toLong()) {
-      return "tomorrow"
+      return "فردا"
     }
     if (Math.abs(difference) > 1.toLong() && Math.abs(difference) < 31.toLong()) {
-      return (Math.abs(difference)).toString() + " days " + suffix
+      return (Math.abs(difference)).toString() + " روز " + suffix
     }
-    return "one month " + suffix
+    return "یک ماه $suffix"
   }
 
   fun monthFormatter(input: Date, toCompareAgainst: Date): String {
     var difference = getMonthsDifference(input, toCompareAgainst)
     makeSuffix(difference.toLong())
     difference = Math.abs(difference)
-    if (difference == 1) {
-      return "one month " + suffix
+
+    if (Math.abs(difference) > 0.toLong() && Math.abs(difference) < 12.toLong()) {
+      return (Math.abs(difference)).toString() + " ماه " + suffix
     }
-    if (Math.abs(difference) > 1.toLong() && Math.abs(difference) < 12.toLong()) {
-      return (Math.abs(difference)).toString() + " months " + suffix
-    }
-    return "one year " + suffix
+    return "یک سال $suffix"
   }
 
   fun yearFormatter(input: Date, toCompareAgainst: Date): String {
-    var difference = input.getYear() - toCompareAgainst.getYear()
+    var difference = input.year - toCompareAgainst.year
     makeSuffix(difference.toLong())
     difference = Math.abs(difference)
-    if (difference == 1) {
-      return "one year " + suffix
-    }
-    return (Math.abs(difference)).toString() + " years " + suffix
+    return (Math.abs(difference)).toString() + " سال " + suffix
   }
 
   private fun getMonthsDifference(date1: Date, date2: Date): Int {
-    val m1 = date1.getYear() * 12 + date1.getMonth()
-    val m2 = date2.getYear() * 12 + date2.getMonth()
-    return m1 - m2;
+    val m1 = date1.year * 12 + date1.month
+    val m2 = date2.year * 12 + date2.month
+    return m1 - m2
   }
 }

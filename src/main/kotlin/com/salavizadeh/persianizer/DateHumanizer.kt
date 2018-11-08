@@ -17,7 +17,7 @@ fun Calendar.humanize(): String {
 fun Date.humanize(toCompareAgainst: Date): String {
   val formatter = DefaultDateFormatter()
   if (Math.abs(this.getDateDiff(toCompareAgainst, TimeUnit.MILLISECONDS)) <= 500)
-    return "now"
+    return "اکنون"
   if (Math.abs(this.getDateDiff(toCompareAgainst, TimeUnit.SECONDS)) < 60)
     return formatter.secondFormatter(this, toCompareAgainst)
   if (Math.abs(this.getDateDiff(toCompareAgainst, TimeUnit.SECONDS)) < 120)
