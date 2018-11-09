@@ -32,4 +32,19 @@ fun main() {
   println(3333.milliSecondsToTimespan(true))
   println(99000000.milliSecondsToTimespan())
 
+  println()
+
+  var str = "This is a test for truncate"
+  println(str.truncate(14))
+  println(str.truncate(20, truncateFrom = TruncateFrom.Left))
+
+  str = "این یک تست است"
+  println(str.truncate(5))
+  println(str.truncate(7))
+  println(str.truncate(10, truncationString = ".."))
+  println(str.truncate(11, truncateFrom = TruncateFrom.Left))
+  println(str.truncate(8, truncateFrom = TruncateFrom.Left))
+  println(str.truncate(7, truncateFrom = TruncateFrom.Left))
+
+
 }
